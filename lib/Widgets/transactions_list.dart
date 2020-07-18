@@ -13,11 +13,10 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 300,
-      child: SingleChildScrollView(
-        child: Column(
-          children: userTransactions.map((tx) {
-            return Card(
-                child: Row(
+      child: ListView.builder(
+        itemBuilder: (ctx, index) {
+          return Card(
+            child: Row(
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.symmetric(
@@ -26,13 +25,13 @@ class TransactionList extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.purple,
+                      color: Theme.of(context).primaryColor,
                       width: 2,
                     ),
                   ),
                   padding: EdgeInsets.all(10),
                   child: Text(
-                    '\$${tx.amount}',
+                    '\$${userTransactions[index].amount.toStringAsFixed(2)}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -44,14 +43,14 @@ class TransactionList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      tx.title,
+                      userTransactions[index].title,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
                     ),
                     Text(
-                      DateFormat.yMMMd().format(tx.date),
+                      DateFormat.yMMMd().format(userTransactions[index].date),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.grey,
@@ -60,9 +59,10 @@ class TransactionList extends StatelessWidget {
                   ],
                 )
               ],
-            ));
-          }).toList(),
-        ),
+            ),
+          );
+        },
+        itemCount: userTransactions.length,
       ),
     );
   }
